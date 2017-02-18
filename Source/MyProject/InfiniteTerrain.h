@@ -13,7 +13,7 @@ class MYPROJECT_API AInfiniteTerrain : public AActor
 	GENERATED_BODY()
 
 private:
-	int platformWidth;
+	float platformWidth;
 	AGround* backPlatform;
 	AGround* frontPlatform;
 
@@ -26,8 +26,8 @@ public:
 	void setUpInitialPlatformPositions();
 	void scrollPlatform(float DeltaTime, AGround* platform);
 
-	bool isOffCamera(const FVector& vector);
-	void moveBackPlatformToFrontAndSwitchThem();
+	bool isBackPlatformOffCamera();
+	void moveBackPlatformToFrontAndSwitchReferences();
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 

@@ -22,15 +22,20 @@ void AInfiniteTerrain::BeginPlay()
 
 void AInfiniteTerrain::setUpInitialPlatformPositions()
 {
-	OUT FVector origin;
-	OUT FVector boxExtent;
-	platform1->GetActorBounds(false, origin, boxExtent);
-	platformWidth = boxExtent.Y * 2;
-	UE_LOG(LogTemp, Warning, TEXT("platform horizontal size is: %f"), platformWidth);
-	platform1->SetActorLocation(FVector(0, 0, -30), false);
-	platform2->SetActorLocation(FVector(0, 0 + platformWidth, -30), false);
 	backPlatform = platform1;
 	frontPlatform = platform2;
+
+	OUT FVector origin;
+	OUT FVector boxExtent;
+	
+	frontPlatform->GetActorBounds(false, origin, boxExtent);
+	platformWidth = boxExtent.Y;
+
+	UE_LOG(LogTemp, Warning, TEXT("platform: %s %s"), *origin.ToString(), *boxExtent.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("platform width is: %f"), platformWidth);
+	
+	platform1->SetActorLocation(FVector(0, 0, 0), false);
+	platform2->SetActorLocation(FVector(0, platformWidth*2, 0), false);
 }
 
 void AInfiniteTerrain::scrollPlatform(float DeltaTime, AGround* platform)
@@ -40,15 +45,15 @@ void AInfiniteTerrain::scrollPlatform(float DeltaTime, AGround* platform)
 	platform->SetActorLocation(location);
 }
 
-bool AInfiniteTerrain::isOffCamera(const FVector& location)
+bool AInfiniteTerrain::isBackPlatformOffCamera()
 {
-	return location.Y <= -300;
+	return backPlatform->GetActorLocation().Y <= -200;
 }
 
-void AInfiniteTerrain::moveBackPlatformToFrontAndSwitchThem()
+void AInfiniteTerrain::moveBackPlatformToFrontAndSwitchReferences()
 {
 	auto frontPlatformLocation = frontPlatform->GetActorLocation();
-	frontPlatformLocation.Y += platformWidth;
+	frontPlatformLocation.Y = frontPlatformLocation.Y + platformWidth*2;
 	backPlatform->SetActorLocation(frontPlatformLocation);
 
 	auto previouslyBackPlatform = backPlatform;
@@ -60,9 +65,9 @@ void AInfiniteTerrain::moveBackPlatformToFrontAndSwitchThem()
 void AInfiniteTerrain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (isOffCamera(backPlatform->GetActorLocation()))
+	if (isBackPlatformOffCamera())
 	{
-		moveBackPlatformToFrontAndSwitchThem();
+		moveBackPlatformToFrontAndSwitchReferences();
 	}
 	scrollPlatform(DeltaTime, backPlatform);
 	scrollPlatform(DeltaTime, frontPlatform);

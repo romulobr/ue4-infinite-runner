@@ -16,7 +16,7 @@ AInfiniteTerrain::AInfiniteTerrain()
 void AInfiniteTerrain::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("using platforms: %s, %s, %s"), *platform1->GetName(), *platform2->GetName(), *platform3->GetName())
+	UE_LOG(LogTemp, Warning, TEXT("using platforms: %s, %s"), *platform1->GetName(), *platform2->GetName())
 	setUpInitialPlatformPositions();
 }
 
@@ -27,13 +27,43 @@ void AInfiniteTerrain::setUpInitialPlatformPositions()
 	platform1->GetActorBounds(false, origin, boxExtent);
 	platformWidth = boxExtent.Y * 2;
 	UE_LOG(LogTemp, Warning, TEXT("platform horizontal size is: %f"), platformWidth);
-	platform1->SetActorLocation(FVector(0, 0, 0), false);
-	platform2->SetActorLocation(FVector(0, 0 + platformWidth, 0), false);
-	platform3->SetActorLocation(FVector(0, 0 - platformWidth, 0), false);
+	platform1->SetActorLocation(FVector(0, 0, -30), false);
+	platform2->SetActorLocation(FVector(0, 0 + platformWidth, -30), false);
+	backPlatform = platform1;
+	frontPlatform = platform2;
+}
+
+void AInfiniteTerrain::scrollPlatform(float DeltaTime, AGround* platform)
+{
+	auto location = platform->GetActorLocation();
+	location.Y = location.Y - DeltaTime * scrollingSpeed;
+	platform->SetActorLocation(location);
+}
+
+bool AInfiniteTerrain::isOffCamera(const FVector& location)
+{
+	return location.Y <= -300;
+}
+
+void AInfiniteTerrain::moveBackPlatformToFrontAndSwitchThem()
+{
+	auto frontPlatformLocation = frontPlatform->GetActorLocation();
+	frontPlatformLocation.Y += platformWidth;
+	backPlatform->SetActorLocation(frontPlatformLocation);
+
+	auto previouslyBackPlatform = backPlatform;
+	backPlatform = frontPlatform;
+	frontPlatform = previouslyBackPlatform;
 }
 
 // Called every frame
 void AInfiniteTerrain::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (isOffCamera(backPlatform->GetActorLocation()))
+	{
+		moveBackPlatformToFrontAndSwitchThem();
+	}
+	scrollPlatform(DeltaTime, backPlatform);
+	scrollPlatform(DeltaTime, frontPlatform);
 }

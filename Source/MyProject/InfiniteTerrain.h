@@ -7,26 +7,35 @@
 class AGround;
 
 UCLASS()
+
 class MYPROJECT_API AInfiniteTerrain : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+private:
+	int platformWidth;
+	AGround* backPlatform;
+	AGround* frontPlatform;
+
+public:
 	// Sets default values for this actor's properties
 	AInfiniteTerrain();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void setUpInitialPlatformPositions();
+	void scrollPlatform(float DeltaTime, AGround* platform);
 
+	bool isOffCamera(const FVector& vector);
+	void moveBackPlatformToFrontAndSwitchThem();
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UPROPERTY(EditAnywhere)
-		AGround* platform1;
+	AGround* platform1;
 	UPROPERTY(EditAnywhere)
-		AGround* platform2;
+	AGround* platform2;
+
 	UPROPERTY(EditAnywhere)
-		AGround* platform3;
-	int platformWidth;
+	float scrollingSpeed = 10.0;
 };

@@ -1,8 +1,8 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "../main/app.cpp"
+#include "../main/GameState.h"
 
 TEST(MyClassTest, JustFails) {
-	MyClass myObject;
+	GameState myObject;
 	EXPECT_EQ(myObject.aMethod(), 10);
 }

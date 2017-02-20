@@ -33,6 +33,11 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
 endif()
 
 # Trivial example using gtest and gmock
-add_executable(logic ./src/test/tests.cpp ./src/main/app.cpp)
+file(GLOB logic_SRC
+    "./src/main/*.h"
+    "./src/main/*.cpp"
+)
+
+add_executable(logic ./src/test/tests.cpp ${logic_SRC})
 target_link_libraries(logic gtest gmock_main)
 add_test(NAME logic_unit_tests COMMAND logic)

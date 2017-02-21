@@ -3,14 +3,17 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+#include "./logic/PlayerCharacter.h"
 #include "RunnerPawn.generated.h"
+
 
 UCLASS()
 
 class MYPROJECT_API ARunnerPawn : public APawn
 {
 	GENERATED_BODY()
-
+private:
+	PlayerCharacter pc;
 public:
 	// Sets default values for this pawn's properties
 	ARunnerPawn();
@@ -22,7 +25,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* AnInputComponent) override;
 
 	UPROPERTY(EditAnywhere)
 	float speed = 10.0;

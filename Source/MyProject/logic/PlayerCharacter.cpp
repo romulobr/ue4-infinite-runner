@@ -1,3 +1,4 @@
+#include "MyProject.h"
 #include "PlayerCharacter.h"
 
 int PlayerCharacter::GetActiveColor()
@@ -5,19 +6,14 @@ int PlayerCharacter::GetActiveColor()
 	return activeColor;
 }
 
-int PlayerCharacter::GetPrimaryColorPower()
+int PlayerCharacter::GetPower()
 {
-	return power[PRIMARY_COLOR];
-}
-
-int PlayerCharacter::GetSecondaryColorPower()
-{
-	return power[SECUNDARY_COLOR];
+	return power;
 }
 
 void PlayerCharacter::Boost()
 {
-	power[activeColor]++;
+	power++;
 }
 
 void PlayerCharacter::ChangeActiveColor()

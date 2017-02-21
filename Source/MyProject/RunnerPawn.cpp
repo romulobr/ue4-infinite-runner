@@ -15,6 +15,7 @@ ARunnerPawn::ARunnerPawn()
 void ARunnerPawn::BeginPlay()
 {
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Player Character initialized: power %i color %i"), pc.GetActiveColor(), pc.GetPower());
 }
 
 // Called every frame
@@ -23,11 +24,11 @@ void ARunnerPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	auto location = GetActorLocation();
 	location.Y += speed * DeltaTime;
-	SetActorLocation(location);
+	SetActorLocation(location);	
 }
 
 // Called to bind functionality to input
-void ARunnerPawn::SetupPlayerInputComponent(class UInputComponent* InputComponent)
+void ARunnerPawn::SetupPlayerInputComponent(class UInputComponent* AnInputComponent)
 {
-	Super::SetupPlayerInputComponent(InputComponent);
+	Super::SetupPlayerInputComponent(AnInputComponent);
 }

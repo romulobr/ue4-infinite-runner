@@ -1,7 +1,6 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
-#include "../main/GameState.h"
-#include "../main/PlayerCharacter.h"
+#include "../../../MyProject/logic/PlayerCharacter.h"
 
 using namespace testing;
 
@@ -15,8 +14,7 @@ TEST_F(APlayerCharacter, StartsWithColorOneAndNoPowerUps)
 {	
 	PlayerCharacter playerCharacter;
 	ASSERT_THAT(playerCharacter.GetActiveColor(), Eq(PlayerCharacter::PRIMARY_COLOR));
-	ASSERT_THAT(playerCharacter.GetPrimaryColorPower(), Eq(0));
-	ASSERT_THAT(playerCharacter.GetSecondaryColorPower(), Eq(0));
+	ASSERT_THAT(playerCharacter.GetPower(), Eq(0));
 }
 
 TEST_F(APlayerCharacter, ChangesActiveColor)
@@ -35,12 +33,11 @@ TEST_F(APlayerCharacter, BoostsActiveColorPower)
 	PlayerCharacter playerCharacter;
 
 	playerCharacter.Boost();	
-	ASSERT_THAT(playerCharacter.GetPrimaryColorPower(), Eq(1));
-	ASSERT_THAT(playerCharacter.GetSecondaryColorPower(), Eq(0));
-	
+	ASSERT_THAT(playerCharacter.GetPower(), Eq(1));
+
 	playerCharacter.Boost();
-	ASSERT_THAT(playerCharacter.GetPrimaryColorPower(), Eq(2));
-	ASSERT_THAT(playerCharacter.GetSecondaryColorPower(), Eq(0));	
+	ASSERT_THAT(playerCharacter.GetPower(), Eq(2));
+
 }
 
 

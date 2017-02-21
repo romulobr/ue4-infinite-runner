@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.2)
 
-project(DP_Example)
+project(GameLogic)
 
 include(CTest)
 
@@ -34,9 +34,10 @@ endif()
 
 # Trivial example using gtest and gmock
 file(GLOB logic_SRC
-    "./src/main/*.h"
-    "./src/main/*.cpp"
+    "../MyProject/logic/*.h"
+    "../MyProject/logic/*.cpp"
 )
+include_directories("./src/dummy")
 
 add_executable(logic ./src/test/tests.cpp ${logic_SRC})
 target_link_libraries(logic gtest gmock_main)

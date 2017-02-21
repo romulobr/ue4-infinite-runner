@@ -1,3 +1,4 @@
+#include "MyProject.h"
 #include "GameState.h"
 
 int GameState::aMethod()
